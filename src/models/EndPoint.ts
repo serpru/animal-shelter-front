@@ -20,5 +20,6 @@ export const EndPoint = {
     visit: "visit",
     visit_form_data: "visit-form-data",
     visit_add: "visit-add",
-    visit_edit: "visit-edit"
+    visit_edit: "visit-edit",
+    visit_status: "visit-status"
 }

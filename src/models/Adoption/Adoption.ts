@@ -1,7 +1,7 @@
 import { Adoptee } from "../Adoptee/Adoptee";
 import { AnimalDb } from "../Db/AnimalDb";
 import { Employee } from "../Employee/Employee";
-import { Visit } from "../Visit/Visit";
+import { VisitDb } from "../Db/VisitDb";
 import { AdoptionStatus } from "./AdoptionStatus";
 
 export type Adoption = {
@@ -13,5 +13,5 @@ export type Adoption = {
     end_date?: Date,
     animal: AnimalDb,
     note: string,
-    visits: Visit[]
+    visits: VisitDb[]
 }

@@ -2,6 +2,7 @@ import {
   Button,
   ButtonGroup,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Paper,
@@ -126,62 +127,89 @@ function AnimalSearch() {
     setSortBy(event.target.value as string);
   }
 
+  function calculateAge(birthday: Date) {
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+
+  function calculateMonths(birthday: Date) {
+    var today: Date = new Date();
+    var monthDif = today.getMonth() - birthday.getMonth();
+    return monthDif;
+  }
+
   //   useEffect(() => {
   //     console.log("Pages");
   //     console.log(pages);
   //   }, [data]);
   return (
     <>
-      <div>Wyszukiwanie zwierząt</div>
-      <FormControl>
-        <TextField
-          id="outlined-basic"
-          label="Wyszukaj"
-          variant="outlined"
-          value={text}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            handleSearchChange(event)
-          }
-        />
-      </FormControl>
-      <FormControl>
-        <InputLabel>Sortuj według</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Sortuj"
-          defaultValue={"Name"}
-          onChange={handleSortChange}
-        >
-          <MenuItem value={"Name"}>Imię</MenuItem>
-          <MenuItem value={"Age"}>Wiek</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl>
-        {" "}
-        <InputLabel>Ilość na stronie</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Ilość na stronie"
-          defaultValue={defaultPagination.pageSize.toString()}
-          onChange={handlePageSize}
-        >
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={50}>50</MenuItem>
-        </Select>
-      </FormControl>
-      <Button
-        variant="contained"
-        onClick={() => {
-          setLoading(true);
-          getData();
-        }}
-      >
-        Szukaj
-      </Button>
+      <div>Animal search</div>
+      <Grid container rowGap={2} spacing={0}>
+        <Grid item xs={6}>
+          {" "}
+          <FormControl>
+            <TextField
+              id="outlined-basic"
+              label="Search"
+              variant="outlined"
+              value={text}
+              fullWidth
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleSearchChange(event)
+              }
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={3}>
+          <FormControl>
+            <InputLabel>Sort by</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Sort"
+              defaultValue={"Name"}
+              fullWidth
+              onChange={handleSortChange}
+            >
+              <MenuItem value={"Name"}>Name</MenuItem>
+              <MenuItem value={"Age"}>Age</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={3}>
+          <FormControl style={{ minWidth: 120 }}>
+            {" "}
+            <InputLabel>Items per page</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Items per page"
+              fullWidth
+              defaultValue={defaultPagination.pageSize.toString()}
+              onChange={handlePageSize}
+            >
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setLoading(true);
+              getData();
+            }}
+          >
+            Search
+          </Button>
+        </Grid>
+      </Grid>
+
       {data && (
         <>
           <Typography>
@@ -213,16 +241,16 @@ function AnimalSearch() {
         </>
       )}
 
-      {loading && <Typography>Ładowanie wyników wyszukiwania...</Typography>}
+      {loading && <Typography>Loading...</Typography>}
       {!loading && data && (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Imię</TableCell>
-                <TableCell align="right">Wiek</TableCell>
-                <TableCell align="right">Gatunek</TableCell>
-                <TableCell align="right">Waga&nbsp;(kg)</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Age</TableCell>
+                <TableCell align="right">Species</TableCell>
+                <TableCell align="right">Weight&nbsp;(kg)</TableCell>
                 <TableCell align="right">Status</TableCell>
               </TableRow>
             </TableHead>
@@ -236,12 +264,23 @@ function AnimalSearch() {
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.age}</TableCell>
                     <TableCell align="right">
-                      {row.animalSpecies.species}
+                      {`${calculateAge(
+                        new Date(row.birth_date)
+                      )} years ${calculateMonths(
+                        new Date(row.birth_date)
+                      )} months`}
                     </TableCell>
-                    <TableCell align="right">{row.weightKg}</TableCell>
+                    <TableCell align="right">
+                      {row.breed.animalSpecies.species}
+                    </TableCell>
+                    <TableCell align="right">{row.weight_kg}</TableCell>
                     <TableCell align="right">{row.status.name}</TableCell>
+                    <TableCell align="right">
+                      <Button variant="contained" href={"/animal/" + row.id}>
+                        View
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

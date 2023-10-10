@@ -1,8 +1,8 @@
-import { Animal } from "./Db/AnimalDb";
+import { AnimalDb } from "./Db/AnimalDb";
 
 export type AnimalsResponse = {
     page: number,
     size: number,
     totalElements: number,
-    data: Animal[],
+    data: AnimalDb[],
 }

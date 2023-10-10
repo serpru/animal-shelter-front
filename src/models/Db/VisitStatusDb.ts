@@ -1,4 +1,4 @@
-export type VisitStatus = {
+export type VisitStatusDb = {
     id: number,
     description: string
 }

@@ -6,6 +6,7 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
+  Grid,
   Input,
   InputLabel,
   MenuItem,
@@ -75,7 +76,6 @@ function AnimalAdd({ mode }: Props) {
           aggressions: actualData.aggressions,
           breeds: actualData.breeds,
           origins: actualData.origins,
-          sizes: actualData.sizes,
           statuses: actualData.statuses,
         };
         setFormData(fetchData);
@@ -314,187 +314,238 @@ function AnimalAdd({ mode }: Props) {
       <>
         {!loading && (
           <>
-            <Typography>Dodawanie zwierzaka</Typography>
-            <FormControl>
-              <InputLabel htmlFor="animal-name">Name</InputLabel>
-              <Input
-                value={data.name}
-                onChange={handleNameChange}
-                disabled={!isEdit}
-              />
-            </FormControl>
-            <FormControl>
-              <DatePicker
-                label="Birth date"
-                value={dayjs(data.birth_date)}
-                disableFuture
-                onChange={handleBirthDateChange}
-                format="DD/MM/YYYY"
-                timezone="system"
-                disabled={!isEdit}
-              ></DatePicker>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Species</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={
-                  formData.breeds.find((x) => x.id == data.breed_id)
-                    ?.animalSpecies.species
-                }
-                label="Species"
-                onChange={handleSpeciesChange}
-                disabled={!isEdit}
-              >
-                {[
-                  ...new Set(
-                    formData.breeds.map((x) => x.animalSpecies.species)
-                  ),
-                ].map((x) => (
-                  <MenuItem key={x} value={x}>
-                    {x}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">
-                Aggression towards animals
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.aggression_animals_id?.toString()}
-                label="Species"
-                onChange={handleAggressionAnimalsChange}
-                disabled={!isEdit}
-              >
-                {formData.aggressions.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.description}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">
-                Aggression towards humans
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.aggression_humans_id?.toString()}
-                label="Species"
-                onChange={handleAggressionHumansChange}
-                disabled={!isEdit}
-              >
-                {formData.aggressions.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.description}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Origin</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.origin_id?.toString()}
-                label="Species"
-                onChange={handleOriginChange}
-                disabled={!isEdit}
-              >
-                {formData.origins.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.status_id?.toString()}
-                label="Species"
-                onChange={handleStatusChange}
-                disabled={!isEdit}
-              >
-                {formData.statuses.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Breed</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.breed_id?.toString()}
-                label="Breeds"
-                onChange={handleBreedChange}
-                disabled={!isEdit}
-              >
-                {filterBreeds(
-                  formData.breeds.find((x) => x.id == data.breed_id)
-                    ?.animalSpecies.id!
-                )?.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Note</InputLabel>
-              <Input
-                multiline
-                onChange={handleNoteChange}
-                value={data.note}
-                disabled={!isEdit}
-              ></Input>
-            </FormControl>
-            <FormControl>
-              <TextField
-                id="outlined-number"
-                label="Weight (kg)"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleWeightChange}
-                value={data.weight_kg}
-                disabled={!isEdit}
-              />
-            </FormControl>
-            <FormControl>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={data.need_medication}
-                    onChange={handleMedicationChange}
+            <Typography>Adding new animal</Typography>
+            <Grid container rowGap={2}>
+              <Grid item xs={4}>
+                <FormControl>
+                  <InputLabel htmlFor="animal-name">Name</InputLabel>
+                  <Input
+                    value={data.name}
+                    onChange={handleNameChange}
                     disabled={!isEdit}
                   />
-                }
-                label="Need medication"
-              ></FormControlLabel>
-            </FormControl>
-            <FormControl>
-              <DateTimePicker
-                label="Arrive date"
-                value={dayjs(data.arrive_date)}
-                disableFuture
-                onChange={handleArriveDateChange}
-                format="DD/MM/YYYY hh:mm"
-                timezone="system"
-                disabled={!isEdit}
-              ></DateTimePicker>
-            </FormControl>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                {" "}
+                <FormControl>
+                  <DatePicker
+                    label="Birth date"
+                    value={dayjs(data.birth_date)}
+                    disableFuture
+                    onChange={handleBirthDateChange}
+                    format="DD/MM/YYYY"
+                    timezone="system"
+                    disabled={!isEdit}
+                  ></DatePicker>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                {" "}
+                <FormControl>
+                  <DateTimePicker
+                    label="Arrive date"
+                    value={dayjs(data.arrive_date)}
+                    disableFuture
+                    onChange={handleArriveDateChange}
+                    format="DD/MM/YYYY hh:mm"
+                    timezone="system"
+                    disabled={!isEdit}
+                  ></DateTimePicker>
+                </FormControl>
+              </Grid>
+              <Grid container item xs={4} rowGap={2}>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Species
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={
+                        formData.breeds.find((x) => x.id == data.breed_id)
+                          ?.animalSpecies.species
+                      }
+                      label="Species"
+                      onChange={handleSpeciesChange}
+                      disabled={!isEdit}
+                    >
+                      {[
+                        ...new Set(
+                          formData.breeds.map((x) => x.animalSpecies.species)
+                        ),
+                      ].map((x) => (
+                        <MenuItem key={x} value={x}>
+                          {x}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">Breed</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.breed_id?.toString()}
+                      label="Breeds"
+                      onChange={handleBreedChange}
+                      disabled={!isEdit}
+                    >
+                      {filterBreeds(
+                        formData.breeds.find((x) => x.id == data.breed_id)
+                          ?.animalSpecies.id!
+                      )?.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container item xs={4} rowGap={2}>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl style={{ minWidth: 240 }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Aggression towards animals
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.aggression_animals_id?.toString()}
+                      label="Species"
+                      onChange={handleAggressionAnimalsChange}
+                      disabled={!isEdit}
+                    >
+                      {formData.aggressions.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.description}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl style={{ minWidth: 240 }}>
+                    <InputLabel id="demo-simple-select-label">
+                      Aggression towards humans
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.aggression_humans_id?.toString()}
+                      label="Species"
+                      onChange={handleAggressionHumansChange}
+                      disabled={!isEdit}
+                    >
+                      {formData.aggressions.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.description}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container item xs={4}>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Origin
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.origin_id?.toString()}
+                      label="Species"
+                      onChange={handleOriginChange}
+                      disabled={!isEdit}
+                    >
+                      {formData.origins.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Status
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.status_id?.toString()}
+                      label="Species"
+                      onChange={handleStatusChange}
+                      disabled={mode == "add" ? true : !isEdit}
+                    >
+                      {formData.statuses.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={4}>
+                {" "}
+                <FormControl>
+                  <InputLabel id="demo-simple-select-label">Note</InputLabel>
+                  <Input
+                    multiline
+                    onChange={handleNoteChange}
+                    value={data.note}
+                    disabled={!isEdit}
+                  ></Input>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                {" "}
+                <FormControl>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={data.need_medication}
+                        onChange={handleMedicationChange}
+                        disabled={!isEdit}
+                      />
+                    }
+                    label="Need medication"
+                  ></FormControlLabel>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                {" "}
+                <FormControl>
+                  <TextField
+                    id="outlined-number"
+                    label="Weight (kg)"
+                    type="number"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={handleWeightChange}
+                    value={data.weight_kg}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+
             {mode === "edit" ? (
               <>
                 {" "}
@@ -516,7 +567,9 @@ function AnimalAdd({ mode }: Props) {
                 )}
               </>
             ) : (
-              <Button onClick={submitData}>Submit</Button>
+              <Button variant="contained" onClick={submitData}>
+                Submit
+              </Button>
             )}
             <SimpleSnackbar
               open={openSnack}

@@ -14,6 +14,14 @@ import {
   Button,
   AlertColor,
   Grid,
+  Card,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import { AdoptionRequest } from "../../models/Adoption/AdoptionRequest";
 import SimpleSnackbar from "../SimpleSnackbar";
@@ -185,49 +193,54 @@ function AdoptionView() {
       ) : (
         <>
           <Typography>Adoption</Typography>
-          <Grid container>
+          <Grid container spacing={2} rowGap={2}>
             <Grid item xs={6}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography>Adoptee</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>{`${data?.adoptee.first_name} ${data?.adoptee.last_name}`}</Typography>
-                </Grid>
-                <Grid item xs={6}>{`${data?.adoptee.phone_number}`}</Grid>
-                <Grid item xs={6}>{`${data?.adoptee.address}`}</Grid>
-                <Grid item xs={6}>{`${data?.adoptee.email}`}</Grid>
-                <Grid
-                  item
-                  xs={6}
-                >{`${data?.adoptee.zip_code} ${data?.adoptee.city}`}</Grid>
+              <Card variant="outlined">
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography>Adoptee</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography>{`${data?.adoptee.first_name} ${data?.adoptee.last_name}`}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>{`${data?.adoptee.phone_number}`}</Grid>
+                  <Grid item xs={6}>{`${data?.adoptee.address}`}</Grid>
+                  <Grid item xs={6}>{`${data?.adoptee.email}`}</Grid>
+                  <Grid
+                    item
+                    xs={6}
+                  >{`${data?.adoptee.zip_code} ${data?.adoptee.city}`}</Grid>
 
-                <Grid item xs={6}>{`${data?.adoptee.country}`}</Grid>
-              </Grid>
+                  <Grid item xs={6}>{`${data?.adoptee.country}`}</Grid>
+                </Grid>
+              </Card>
             </Grid>
             <Grid item xs={6}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography>Animal</Typography>
+              <Card variant="outlined">
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography>Animal</Typography>
+                  </Grid>
+                  <Grid item xs={12}>{`${data?.animal.name}`}</Grid>
+                  <Grid
+                    item
+                    xs={12}
+                  >{`${data?.animal.breed.name} | ${data?.animal.breed.animalSpecies.species}`}</Grid>
+                  <Grid item xs={12}>{`Birthday: ${new Date(
+                    data!.animal.birth_date
+                  ).toLocaleDateString()}`}</Grid>
                 </Grid>
-                <Grid item xs={12}>{`${data?.animal.name}`}</Grid>
-                <Grid
-                  item
-                  xs={12}
-                >{`${data?.animal.breed.name} | ${data?.animal.breed.animalSpecies.species}`}</Grid>
-                <Grid item xs={12}>{`Birthday: ${new Date(
-                  data!.animal.birth_date
-                ).toLocaleDateString()}`}</Grid>
-              </Grid>
+              </Card>
             </Grid>
             <Grid item xs={12}>
-              <Grid container>
+              <Grid container rowGap={2} spacing={2}>
                 <Grid item xs={6}>
-                  <Typography>Employee</Typography>
-                  <Typography>{`${data?.employee.first_name} ${data?.employee.last_name}`}</Typography>
+                  <Card variant="outlined">
+                    <Typography>Employee</Typography>
+                    <Typography>{`${data?.employee.first_name} ${data?.employee.last_name}`}</Typography>
+                  </Card>
                 </Grid>
                 <Grid item xs={6}>
-                  {" "}
                   <FormControl>
                     <InputLabel id="demo-simple-select-label">
                       Status
@@ -247,9 +260,12 @@ function AdoptionView() {
                       ))}
                     </Select>
                   </FormControl>
+                </Grid>
+                <Grid item xs={12}>
                   {isEdit ? (
                     <>
                       <Button
+                        variant="contained"
                         onClick={() => {
                           setIsEdit(false);
                           submitData();
@@ -258,6 +274,7 @@ function AdoptionView() {
                         Submit
                       </Button>
                       <Button
+                        variant="contained"
                         onClick={() => {
                           resetForm();
                           setIsEdit(false);
@@ -267,34 +284,58 @@ function AdoptionView() {
                       </Button>
                     </>
                   ) : (
-                    <Button onClick={() => setIsEdit(true)}>Edit</Button>
+                    <Button variant="contained" onClick={() => setIsEdit(true)}>
+                      Edit
+                    </Button>
                   )}
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Grid container>
-                {data?.visits ? (
-                  data.visits.map((visit) => (
-                    <Grid container key={visit.id}>
-                      <Grid item xs={4}>
-                        {new Date(visit.date).toLocaleDateString()}
-                      </Grid>
-                      <Grid
-                        item
-                        xs={4}
-                      >{`${visit.visit_status.description}`}</Grid>
-                      <Grid item xs={4}>
-                        <Button variant="contained" href={"/visit/" + visit.id}>
-                          View
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  ))
-                ) : (
-                  <Typography>Test</Typography>
-                )}
-              </Grid>
+              <Typography>Visits history</Typography>
+              {data?.visits ? (
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Date</TableCell>
+                        <TableCell align="right">Status</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    {data && (
+                      <TableBody>
+                        {data?.visits.map((row) => (
+                          <TableRow
+                            key={row.id}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {new Date(row.date).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell align="right">
+                              {`${row.visit_status.description}`}
+                            </TableCell>
+                            <TableCell align="right">
+                              <Button
+                                variant="contained"
+                                href={"/visit/" + row.id}
+                              >
+                                View
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    )}
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Typography>No visits</Typography>
+              )}
             </Grid>
           </Grid>
         </>

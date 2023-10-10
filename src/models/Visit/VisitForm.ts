@@ -1,5 +1,5 @@
 import { AdoptionShort } from "../Adoption/AdoptionShort";
-import { VisitStatus } from "./VisitStatus";
+import { VisitStatus } from "../Db/VisitStatusDb";
 
 export type VisitForm = {
     adoptions: AdoptionShort[],
