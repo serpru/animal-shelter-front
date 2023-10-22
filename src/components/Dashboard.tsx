@@ -11,6 +11,12 @@ function Dashboard() {
       <Button variant="contained" href={"/animal-add"}>
         Add animal
       </Button>
+      <Button variant="contained" href={"/adoption-add"}>
+        Create adoption
+      </Button>
+      <Button variant="contained" href={"/adoptee-add"}>
+        Add adoptee
+      </Button>
     </>
   );
 }

@@ -20,6 +20,8 @@ import AnimalView from "./components/Animal/AnimalView";
 import VisitView from "./components/Visit/VisitView";
 import WorkSchedule from "./components/WorkSchedule/WorkSchedule";
 import Dashboard from "./components/Dashboard";
+import AdopteeAdd from "./components/Adoptee/AdopteeAdd";
+import Login from "./components/Login/Login";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -51,6 +53,22 @@ function App() {
               }
             />
             <Route
+              path="/login"
+              element={
+                <>
+                  <Login></Login>
+                </>
+              }
+            />
+            <Route
+              path="/adoptee-add"
+              element={
+                <>
+                  <AdopteeAdd></AdopteeAdd>
+                </>
+              }
+            />
+            <Route
               path="/adoption-add"
               element={
                 <>
@@ -71,6 +89,14 @@ function App() {
               element={
                 <>
                   <AnimalAdd mode="add"></AnimalAdd>
+                </>
+              }
+            />
+            <Route
+              path="/animal-edit/:animal_id"
+              element={
+                <>
+                  <AnimalAdd mode="edit"></AnimalAdd>
                 </>
               }
             />

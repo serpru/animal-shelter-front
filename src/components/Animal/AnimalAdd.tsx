@@ -24,6 +24,7 @@ import moment from "moment";
 
 import SimpleSnackbar from "../SimpleSnackbar";
 import { useParams } from "react-router-dom";
+import { AnimalResponse } from "../../models/Animal/AnimalResponse";
 
 interface Props {
   mode: "edit" | "add";
@@ -99,21 +100,21 @@ function AnimalAdd({ mode }: Props) {
         }
         return response.json();
       })
-      .then((actualData) => {
+      .then((actualData: AnimalResponse) => {
         let fetchData: AnimalRequest = {
-          id: actualData.id,
-          name: actualData.name,
-          birth_date: actualData.age,
-          aggression_animals_id: actualData.aggressionAnimals.id,
-          aggression_humans_id: actualData.aggressionHumans.id,
-          note: actualData.note,
-          breed_id: actualData.breed.id,
-          weight_kg: actualData.weightKg,
-          need_medication: actualData.needMedication,
-          status_id: actualData.status.id,
-          origin_id: actualData.origin.id,
-          arrive_date: actualData.arriveDate,
-          adoption_date: actualData.adoptionDate,
+          id: actualData.animal.id,
+          name: actualData.animal.name,
+          birth_date: new Date(actualData.animal.birth_date + "Z"),
+          aggression_animals_id: actualData.animal.aggression_animals.id,
+          aggression_humans_id: actualData.animal.aggression_humans.id,
+          note: actualData.animal.note ? actualData.animal.note : "",
+          breed_id: actualData.animal.breed.id,
+          weight_kg: actualData.animal.weight_kg,
+          need_medication: actualData.animal.need_medication,
+          status_id: actualData.animal.status.id,
+          origin_id: actualData.animal.origin.id,
+          arrive_date: new Date(actualData.animal.arrive_date + "Z"),
+          adoption_date: actualData.animal.adoption_date,
         };
         setData(fetchData);
         setDataOriginal(fetchData);
@@ -137,8 +138,9 @@ function AnimalAdd({ mode }: Props) {
 
     let t = dayjs.tz.guess();
     console.log(t);
+    console.log(endpoint);
 
-    let submitData = {
+    let submitData: AnimalRequest = {
       id: data.id,
       name: data.name,
       birth_date: data.birth_date,
@@ -150,7 +152,8 @@ function AnimalAdd({ mode }: Props) {
       need_medication: data.need_medication,
       status_id: data.status_id,
       origin_id: data.origin_id,
-      arrive_date: dayjs.tz(data.arrive_date, t).toDate().toJSON(),
+      arrive_date: data.arrive_date,
+      adoption_date: data.adoption_date,
     };
 
     console.warn("Submit data");
@@ -172,10 +175,10 @@ function AnimalAdd({ mode }: Props) {
         }
         console.log(response);
         setSnackMessage({
-          message: "Added animal to database.",
+          message: "Updated animal data in database.",
           severity: "success",
         });
-        setIsEdit(false);
+
         return response.json();
       })
       .catch((err) => {
@@ -314,7 +317,11 @@ function AnimalAdd({ mode }: Props) {
       <>
         {!loading && (
           <>
-            <Typography>Adding new animal</Typography>
+            {mode == "add" ? (
+              <Typography>Adding new animal</Typography>
+            ) : (
+              <Typography>Edit animal info</Typography>
+            )}
             <Grid container rowGap={2}>
               <Grid item xs={4}>
                 <FormControl>
@@ -336,7 +343,7 @@ function AnimalAdd({ mode }: Props) {
                     onChange={handleBirthDateChange}
                     format="DD/MM/YYYY"
                     timezone="system"
-                    disabled={!isEdit}
+                    disabled={mode == "add" ? false : true}
                   ></DatePicker>
                 </FormControl>
               </Grid>
@@ -348,9 +355,10 @@ function AnimalAdd({ mode }: Props) {
                     value={dayjs(data.arrive_date)}
                     disableFuture
                     onChange={handleArriveDateChange}
-                    format="DD/MM/YYYY hh:mm"
+                    ampm={false}
+                    format="DD/MM/YYYY HH:mm"
                     timezone="system"
-                    disabled={!isEdit}
+                    disabled={mode == "add" ? false : true}
                   ></DateTimePicker>
                 </FormControl>
               </Grid>

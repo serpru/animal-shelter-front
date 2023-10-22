@@ -2,6 +2,9 @@
 
 export const EndPoint = {
     root: "https://localhost:7224/",
+    login: "login",
+    logout: "logout",
+    adoptee_add: "adoptee-add",
     adoption_add_form: "adoption-form-data",
     adoption: "adoption",
     adoption_add: "adoption-add",

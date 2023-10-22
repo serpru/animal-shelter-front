@@ -113,7 +113,9 @@ function AnimalView() {
               </Grid>
             </Grid>
           </Card>
-
+          <Button variant="contained" href={"/animal-edit/" + data?.animal.id}>
+            Edit
+          </Button>
           {data!.adoptions.length > 0 ? (
             <>
               <Typography fontWeight={"bold"}>Adoption history</Typography>
