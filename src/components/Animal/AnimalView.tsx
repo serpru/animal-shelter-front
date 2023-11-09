@@ -32,7 +32,11 @@ function AnimalView() {
   }, []);
 
   function getAnimal() {
-    fetch(EndPoint.root + EndPoint.animal + "/" + animal_id)
+    fetch(EndPoint.root + EndPoint.animal + "/" + animal_id, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(

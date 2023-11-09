@@ -1,4 +1,11 @@
-import { Box, Button, Input, TextField, TextareaAutosize } from "@mui/material";
+import {
+  Box,
+  Button,
+  Input,
+  TextField,
+  TextareaAutosize,
+  Typography,
+} from "@mui/material";
 import React, { ReactNode, useState } from "react";
 import { EndPoint } from "../../models/EndPoint";
 import { Credentials } from "../../models/Login/Credentials";
@@ -66,6 +73,7 @@ export default function LoginForm() {
             borderRadius={5}
             padding={"5px"}
           >
+            <Typography>Welcome to Animal Shelter System</Typography>
             <Box my={"65px"}>
               <TextField
                 disabled={state === "typing" ? false : true}

@@ -53,7 +53,11 @@ function VisitView() {
   }, [data]);
 
   function getVisit() {
-    fetch(EndPoint.root + EndPoint.visit + "/" + visit_id)
+    fetch(EndPoint.root + EndPoint.visit + "/" + visit_id, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -81,7 +85,11 @@ function VisitView() {
       });
   }
   function getVisitStatuses() {
-    fetch(EndPoint.root + EndPoint.visit_status)
+    fetch(EndPoint.root + EndPoint.visit_status, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -150,6 +158,7 @@ function VisitView() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(submitData),
     })
       .then((response) => {

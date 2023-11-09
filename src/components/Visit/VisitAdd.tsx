@@ -60,7 +60,11 @@ function VisitAdd({ mode, timezone }: Props) {
   function getVisit() {
     const tzOffset = new Date().getTimezoneOffset();
 
-    fetch(EndPoint.root + EndPoint.visit + "/" + visit_id)
+    fetch(EndPoint.root + EndPoint.visit + "/" + visit_id, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -98,7 +102,11 @@ function VisitAdd({ mode, timezone }: Props) {
   }
 
   function getFormData() {
-    fetch(EndPoint.root + EndPoint.visit_form_data)
+    fetch(EndPoint.root + EndPoint.visit_form_data, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -159,6 +167,7 @@ function VisitAdd({ mode, timezone }: Props) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(submitData),
     })
       .then((response) => {

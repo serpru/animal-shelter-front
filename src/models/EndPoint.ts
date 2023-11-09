@@ -4,6 +4,7 @@ export const EndPoint = {
     root: "https://localhost:7224/",
     login: "login",
     logout: "logout",
+    check_if_logged_in: "login-check",
     adoptee_add: "adoptee-add",
     adoption_add_form: "adoption-form-data",
     adoption: "adoption",

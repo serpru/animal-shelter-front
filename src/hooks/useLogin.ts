@@ -29,7 +29,7 @@ export const useLogin = () => {
             console.log(response)
             console.log("cookies:")
             console.log(response.headers.get('refreshToken'))
-            dispatch({type: 'LOGIN', payload: response.headers.get('refreshToken')})
+            dispatch({type: 'LOGIN', payload: "logged in"})
 
             setIsLoading(false);
         })

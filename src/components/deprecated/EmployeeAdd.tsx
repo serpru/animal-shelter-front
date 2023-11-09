@@ -46,7 +46,11 @@ function EmployeeAdd() {
   }, []);
 
   function getFormData() {
-    fetch(EndPoint.root + EndPoint.employee_add_form)
+    fetch(EndPoint.root + EndPoint.employee_add_form, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -92,6 +96,7 @@ function EmployeeAdd() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(submitData),
     })
       .then((response) => {

@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import { theme } from "./Theme";
-import { Button, ThemeProvider } from "@mui/material";
+import { Button, ThemeProvider, Typography } from "@mui/material";
 import AnimalSearch from "./components/Animal/AnimalSearch";
 import AnimalAdd from "./components/Animal/AnimalAdd";
 
@@ -22,13 +22,20 @@ import WorkSchedule from "./components/WorkSchedule/WorkSchedule";
 import Dashboard from "./components/Dashboard";
 import AdopteeAdd from "./components/Adoptee/AdopteeAdd";
 import Login from "./components/Login/Login";
+import { useLogout } from "./hooks/useLogout";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale("pl");
 
 function App() {
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
   const location = useLocation();
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -39,24 +46,29 @@ function App() {
           dateAdapter={AdapterDayjs}
         >
           {location.pathname != "/" && (
-            <Button variant="outlined" href={"/"}>
-              Back to dashboard
-            </Button>
+            <>
+              <Button variant="outlined" href={"/"}>
+                Back to dashboard
+              </Button>
+            </>
           )}
+          {user && (
+            <>
+              <Button onClick={handleLogout}>Logout</Button>
+            </>
+          )}
+
           <Routes>
             <Route
               path="/"
               element={
                 <>
-                  <Dashboard></Dashboard>
-                </>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <>
-                  <Login></Login>
+                  {user && <Dashboard></Dashboard>}
+                  {!user && (
+                    <>
+                      <Login></Login>
+                    </>
+                  )}
                 </>
               }
             />

@@ -61,7 +61,12 @@ function AnimalSearch() {
         "&sort=" +
         sortBy +
         "&qp=" +
-        text
+        text,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }
     )
       .then((response) => {
         if (!response.ok) {

@@ -63,7 +63,11 @@ function AnimalAdd({ mode }: Props) {
   const { animal_id } = useParams();
 
   function getFormData() {
-    fetch(EndPoint.root + EndPoint.animal_add_form)
+    fetch(EndPoint.root + EndPoint.animal_add_form, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -91,7 +95,11 @@ function AnimalAdd({ mode }: Props) {
   }
 
   function getAnimal() {
-    fetch(EndPoint.root + EndPoint.animal + "/" + animal_id)
+    fetch(EndPoint.root + EndPoint.animal + "/" + animal_id, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -164,6 +172,7 @@ function AnimalAdd({ mode }: Props) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(submitData),
     })
       .then((response) => {
