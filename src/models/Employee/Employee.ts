@@ -5,7 +5,6 @@ export type Employee = {
     last_name: string,
     phone_number: string,
     email: string,
-    salary: number,
     job_type: JobType,
     start_date: Date,
     birth_date: Date,

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Card,
   Input,
   TextField,
   TextareaAutosize,
@@ -59,67 +60,70 @@ export default function LoginForm() {
   }
   return (
     <>
-      <Box
-        display="flex"
-        justifyContent={"center"}
-        marginTop={"50px"}
-        marginBottom={"50px"}
-        fontSize={"1.7rem"}
-      >
-        <div className="credentials-window">
-          <Box
-            border={"5px"}
-            borderColor={"green"}
-            borderRadius={5}
-            padding={"5px"}
-          >
-            <Typography>Welcome to Animal Shelter System</Typography>
-            <Box my={"65px"}>
-              <TextField
-                disabled={state === "typing" ? false : true}
-                required
-                label="Login"
-                placeholder="Login"
-                value={credentials.login}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setLogin(event.target.value);
-                }}
-              />
-            </Box>
-            <Box my={"65px"}>
-              <TextField
-                disabled={state === "typing" ? false : true}
-                required
-                label="Password"
-                placeholder="Password"
-                type="password"
-                value={credentials.password}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setPassword(event.target.value);
-                }}
-              />
-            </Box>
-            <Button
-              disabled={
-                credentials.login !== "" &&
-                credentials.password !== "" &&
-                isLoading
-                  ? true
-                  : false
-                //&&
-                // state === "typing"
-                //   ? false
-                //   : true
-              }
-              variant="contained"
-              onClick={() => submitCredentials()}
+      <Card>
+        {" "}
+        <Box
+          display="flex"
+          justifyContent={"center"}
+          marginTop={"50px"}
+          marginBottom={"50px"}
+          fontSize={"1.7rem"}
+        >
+          <div className="credentials-window">
+            <Box
+              border={"5px"}
+              borderColor={"green"}
+              borderRadius={5}
+              padding={"5px"}
             >
-              Login
-            </Button>
-          </Box>
-          {error && <div>{error}</div>}
-        </div>
-      </Box>
+              <Typography>Welcome to Animal Shelter System</Typography>
+              <Box my={"65px"}>
+                <TextField
+                  disabled={state === "typing" ? false : true}
+                  required
+                  label="Login"
+                  placeholder="Login"
+                  value={credentials.login}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setLogin(event.target.value);
+                  }}
+                />
+              </Box>
+              <Box my={"65px"}>
+                <TextField
+                  disabled={state === "typing" ? false : true}
+                  required
+                  label="Password"
+                  placeholder="Password"
+                  type="password"
+                  value={credentials.password}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setPassword(event.target.value);
+                  }}
+                />
+              </Box>
+              <Button
+                disabled={
+                  credentials.login !== "" &&
+                  credentials.password !== "" &&
+                  isLoading
+                    ? true
+                    : false
+                  //&&
+                  // state === "typing"
+                  //   ? false
+                  //   : true
+                }
+                variant="contained"
+                onClick={() => submitCredentials()}
+              >
+                Login
+              </Button>
+            </Box>
+            {error && <div>{error}</div>}
+          </div>
+        </Box>
+      </Card>
     </>
   );
 }

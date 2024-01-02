@@ -4,6 +4,7 @@ import { AdopteeRequest } from "../../models/Adoptee/AdopteeRequest";
 import {
   AlertColor,
   Button,
+  Card,
   FormControl,
   Grid,
   Input,
@@ -175,108 +176,112 @@ function AdopteeAdd() {
     <>
       {!loading && (
         <>
-          <Typography>Add adoptee</Typography>
-          <Grid container>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_first_name">First name</InputLabel>
-                <Input
-                  value={data.first_name}
-                  onChange={handleFirstNameChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
+          <Card>
+            <Typography>Add adoptee</Typography>
+            <Grid container>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_first_name">
+                    First name
+                  </InputLabel>
+                  <Input
+                    value={data.first_name}
+                    onChange={handleFirstNameChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_last_name">Last name</InputLabel>
+                  <Input
+                    value={data.last_name}
+                    onChange={handleLastNameChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_phone_number">
+                    Phone number
+                  </InputLabel>
+                  <Input
+                    value={data.phone_number}
+                    onChange={handlePhoneChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_email">Email</InputLabel>
+                  <Input
+                    value={data.email}
+                    onChange={handleEmailChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_address">Address</InputLabel>
+                  <Input
+                    value={data.address}
+                    onChange={handleAddressChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_city">City</InputLabel>
+                  <Input
+                    value={data.city}
+                    onChange={handleCityChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_zipcode">Zip-code</InputLabel>
+                  <Input
+                    value={data.zipcode}
+                    onChange={handleZipcodeChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl>
+                  <InputLabel htmlFor="adoptee_country">Country</InputLabel>
+                  <Input
+                    value={data.country}
+                    onChange={handleCountryChange}
+                    disabled={!isEdit}
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_last_name">Last name</InputLabel>
-                <Input
-                  value={data.last_name}
-                  onChange={handleLastNameChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_phone_number">
-                  Phone number
-                </InputLabel>
-                <Input
-                  value={data.phone_number}
-                  onChange={handlePhoneChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_email">Email</InputLabel>
-                <Input
-                  value={data.email}
-                  onChange={handleEmailChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_address">Address</InputLabel>
-                <Input
-                  value={data.address}
-                  onChange={handleAddressChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_city">City</InputLabel>
-                <Input
-                  value={data.city}
-                  onChange={handleCityChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_zipcode">Zip-code</InputLabel>
-                <Input
-                  value={data.zipcode}
-                  onChange={handleZipcodeChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel htmlFor="adoptee_country">Country</InputLabel>
-                <Input
-                  value={data.country}
-                  onChange={handleCountryChange}
-                  disabled={!isEdit}
-                />
-              </FormControl>
-            </Grid>
-          </Grid>
 
-          <Button
-            onClick={() => {
-              setIsEdit(false);
-              submitData();
-            }}
-            disabled={!isValid || !isEdit}
-            variant="contained"
-          >
-            Submit
-          </Button>
-          <SimpleSnackbar
-            open={openSnack}
-            setOpen={setOpenSnack}
-            message={snackMessage.message}
-            severity={snackMessage.severity}
-          ></SimpleSnackbar>
+            <Button
+              onClick={() => {
+                setIsEdit(false);
+                submitData();
+              }}
+              disabled={!isValid || !isEdit}
+              variant="contained"
+            >
+              Submit
+            </Button>
+            <SimpleSnackbar
+              open={openSnack}
+              setOpen={setOpenSnack}
+              message={snackMessage.message}
+              severity={snackMessage.severity}
+            ></SimpleSnackbar>
+          </Card>
         </>
       )}
     </>

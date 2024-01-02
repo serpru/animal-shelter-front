@@ -3,7 +3,6 @@ export type EmployeeEdit = {
     last_name?: string,
     phone_number?: string,
     email?: string,
-    salary?: number,
     job_type?: number,
     start_date?: Date,
     birth_date?: Date,

@@ -9,6 +9,8 @@ import {
   Select,
   MenuItem,
   Button,
+  Grid,
+  Card,
 } from "@mui/material";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs, PluginFunc } from "dayjs";
@@ -239,89 +241,108 @@ function VisitAdd({ mode, timezone }: Props) {
       <>
         {!loading && (
           <>
-            <Typography>
-              {mode == "add" ? "Add visit" : "Visit info"}
-            </Typography>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Job type</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.adoption_id.toString()}
-                label="Adoption"
-                onChange={handleAdoptionChange}
-                disabled={mode == "edit" ? true : !isEdit}
-              >
-                {formData?.adoptions.map((x: AdoptionShort) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {`${x.animal_name} | ${x.adoptee_name} | ${new Date(
-                      x.start_date
-                    ).toLocaleDateString()}`}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <DateTimePicker
-                label="Date of visit"
-                value={dayjs(data.date)}
-                disablePast
-                onChange={handleDateChange}
-                format="DD/MM/YYYY HH:mm"
-                timezone="system"
-                disabled={!isEdit}
-                ampm={false}
-              ></DateTimePicker>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">
-                Visit status
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.visit_status_id.toString()}
-                label="Visit status"
-                onChange={handleVisitStatusChange}
-                disabled={mode == "add" ? true : !isEdit}
-              >
-                {formData?.statuses.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.description}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {mode === "edit" ? (
-              <>
-                {" "}
-                {isEdit && (
-                  <>
-                    <Button onClick={submitData}>Submit</Button>
-                    <Button
-                      onClick={() => {
-                        resetForm();
-                        setIsEdit(false);
-                      }}
+            <Card>
+              <Typography>
+                {mode == "add" ? "Add visit" : "Visit info"}
+              </Typography>
+              <Grid container rowGap={2}>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Adoption
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.adoption_id.toString()}
+                      label="Adoption"
+                      onChange={handleAdoptionChange}
+                      disabled={mode == "edit" ? true : !isEdit}
                     >
-                      Cancel
+                      {formData?.adoptions.map((x: AdoptionShort) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {`${x.animal_name} | ${x.adoptee_name} | ${new Date(
+                            x.start_date
+                          ).toLocaleDateString()}`}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <DateTimePicker
+                      label="Date of visit"
+                      value={dayjs(data.date)}
+                      disablePast
+                      onChange={handleDateChange}
+                      format="DD/MM/YYYY HH:mm"
+                      timezone="system"
+                      disabled={!isEdit}
+                      ampm={false}
+                    ></DateTimePicker>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Visit status
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.visit_status_id.toString()}
+                      label="Visit status"
+                      onChange={handleVisitStatusChange}
+                      disabled={mode == "add" ? true : !isEdit}
+                    >
+                      {formData?.statuses.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.description}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+
+              {mode === "edit" ? (
+                <>
+                  {" "}
+                  {isEdit && (
+                    <>
+                      <Button onClick={submitData}>Submit</Button>
+                      <Button
+                        onClick={() => {
+                          resetForm();
+                          setIsEdit(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  )}
+                  {!isEdit && (
+                    <Button variant="contained" onClick={() => setIsEdit(true)}>
+                      Edit
                     </Button>
-                  </>
-                )}
-                {!isEdit && (
-                  <Button onClick={() => setIsEdit(true)}>Edit</Button>
-                )}
-              </>
-            ) : (
-              <Button onClick={submitData}>Submit</Button>
-            )}
-            <SimpleSnackbar
-              open={openSnack}
-              setOpen={setOpenSnack}
-              message={snackMessage.message}
-              severity={snackMessage.severity}
-            ></SimpleSnackbar>
+                  )}
+                </>
+              ) : (
+                <Button variant="contained" onClick={submitData}>
+                  Submit
+                </Button>
+              )}
+              <SimpleSnackbar
+                open={openSnack}
+                setOpen={setOpenSnack}
+                message={snackMessage.message}
+                severity={snackMessage.severity}
+              ></SimpleSnackbar>
+            </Card>
           </>
         )}
       </>

@@ -24,6 +24,7 @@ import AdopteeAdd from "./components/Adoptee/AdopteeAdd";
 import Login from "./components/Login/Login";
 import { useLogout } from "./hooks/useLogout";
 import { useAuthContext } from "./hooks/useAuthContext";
+import EmployeeSearch from "./components/Employee/EmployeeSearch";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -141,6 +142,14 @@ function App() {
               element={
                 <>
                   <EmployeeEdit mode="edit"></EmployeeEdit>
+                </>
+              }
+            />
+            <Route
+              path="/employee-search"
+              element={
+                <>
+                  <EmployeeSearch></EmployeeSearch>
                 </>
               }
             />

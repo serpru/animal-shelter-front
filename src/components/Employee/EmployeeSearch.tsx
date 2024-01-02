@@ -141,7 +141,7 @@ function AnimalSearch() {
       <FormControl>
         <TextField
           id="outlined-basic"
-          label="Wyszukaj"
+          label="Search"
           variant="outlined"
           value={text}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -150,11 +150,11 @@ function AnimalSearch() {
         />
       </FormControl>
       <FormControl>
-        <InputLabel>Sortuj według</InputLabel>
+        <InputLabel>Sort by</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          label="Sortuj"
+          label="Sort by"
           defaultValue={"First name"}
           onChange={handleSortChange}
         >
@@ -165,11 +165,11 @@ function AnimalSearch() {
       </FormControl>
       <FormControl>
         {" "}
-        <InputLabel>Ilość na stronie</InputLabel>
+        <InputLabel>Items per page</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          label="Ilość na stronie"
+          label="Items per page"
           defaultValue={defaultPagination.pageSize.toString()}
           onChange={handlePageSize}
         >
@@ -186,7 +186,7 @@ function AnimalSearch() {
           getData();
         }}
       >
-        Szukaj
+        Search
       </Button>
       {data && (
         <>

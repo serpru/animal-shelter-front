@@ -33,10 +33,8 @@ function EmployeeAdd() {
     last_name: "",
     phone_number: "",
     email: "",
-    salary: 0,
     job_type_id: 1,
     start_date: today,
-    birth_date: today,
   };
 
   const [data, setData] = useState<EmployeeRequest>(dataBlank);
@@ -82,10 +80,8 @@ function EmployeeAdd() {
       last_name: data.last_name,
       phone_number: data.phone_number,
       email: data.email,
-      salary: data.salary,
       job_type_id: data.job_type_id,
       start_date: data.start_date.toJSON(),
-      birth_date: data.birth_date.toJSON(),
     };
 
     console.warn("Submit data");
@@ -142,26 +138,12 @@ function EmployeeAdd() {
     setData({ ...data, email: event.target.value });
   }
 
-  function handleSalaryChange(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    let newSalary = Number(event.target.value);
-    setData({
-      ...data,
-      salary: newSalary,
-    });
-  }
-
   function handleJobTypeChange(event: SelectChangeEvent) {
     let newId = Number(event.target.value);
     setData({
       ...data,
       job_type_id: newId,
     });
-  }
-
-  function handleBirthDateChange(newDate: Dayjs | null) {
-    setData({ ...data, birth_date: newDate!.toDate() });
   }
 
   function handleStartDateChange(newDate: Dayjs | null) {
@@ -205,18 +187,6 @@ function EmployeeAdd() {
               <Input value={data.email} onChange={handleEmailChange} />
             </FormControl>
             <FormControl>
-              <TextField
-                id="outlined-number"
-                label="Salary"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleSalaryChange}
-                value={data.salary}
-              />
-            </FormControl>
-            <FormControl>
               <InputLabel id="demo-simple-select-label">Job type</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -231,16 +201,6 @@ function EmployeeAdd() {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
-            <FormControl>
-              <DatePicker
-                label="Birth date"
-                value={dayjs(data.birth_date)}
-                disableFuture
-                onChange={handleBirthDateChange}
-                format="DD/MM/YYYY"
-                timezone="system"
-              ></DatePicker>
             </FormControl>
             <FormControl>
               <DatePicker

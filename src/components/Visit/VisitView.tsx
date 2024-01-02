@@ -8,7 +8,9 @@ import { VisitDb } from "../../models/Db/VisitDb";
 import {
   AlertColor,
   Button,
+  Card,
   FormControl,
+  Grid,
   Input,
   InputLabel,
   MenuItem,
@@ -207,72 +209,88 @@ function VisitView() {
     <>
       {!loading && (
         <>
-          <Typography>Visit info</Typography>
-          <FormControl>
-            <DateTimePicker
-              label="Date of visit"
-              value={dayjs(data!.date)}
-              disablePast
-              onChange={handleDateChange}
-              format="DD/MM/YYYY HH:mm"
-              timezone="system"
-              disabled={!isEdit}
-              ampm={false}
-            ></DateTimePicker>
-          </FormControl>
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Visit status</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={data!.visit_status_id.toString()}
-              label="Visit status"
-              onChange={handleVisitStatusChange}
-              disabled={!isEdit}
-            >
-              {statuses?.map((x) => (
-                <MenuItem key={x.id} value={x.id}>
-                  {x.description}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Note</InputLabel>
-            <Input
-              multiline
-              onChange={handleNoteChange}
-              value={data?.note ? data?.note : ""}
-              disabled={!isEdit}
-            ></Input>
-          </FormControl>
+          <Card>
+            <Typography>Visit info</Typography>
+            <Grid container>
+              <Grid item xs={4}>
+                <FormControl>
+                  <DateTimePicker
+                    label="Date of visit"
+                    value={dayjs(data!.date)}
+                    disablePast
+                    onChange={handleDateChange}
+                    format="DD/MM/YYYY HH:mm"
+                    timezone="system"
+                    disabled={!isEdit}
+                    ampm={false}
+                  ></DateTimePicker>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl>
+                  <InputLabel id="demo-simple-select-label">
+                    Visit status
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={data!.visit_status_id.toString()}
+                    label="Visit status"
+                    onChange={handleVisitStatusChange}
+                    disabled={!isEdit}
+                  >
+                    {statuses?.map((x) => (
+                      <MenuItem key={x.id} value={x.id}>
+                        {x.description}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl>
+                  <InputLabel id="demo-simple-select-label">Note</InputLabel>
+                  <Input
+                    multiline
+                    onChange={handleNoteChange}
+                    value={data?.note ? data?.note : ""}
+                    disabled={!isEdit}
+                  ></Input>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                {
+                  <>
+                    {isEdit && (
+                      <>
+                        <Button
+                          onClick={() => {
+                            setIsEdit(false);
+                            submitData();
+                          }}
+                          disabled={!isDataChanged}
+                        >
+                          Submit
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            resetForm();
+                            setIsEdit(false);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </>
+                    )}
+                    {!isEdit && (
+                      <Button onClick={() => setIsEdit(true)}>Edit</Button>
+                    )}
+                  </>
+                }
+              </Grid>
+            </Grid>
+          </Card>
 
-          {
-            <>
-              {isEdit && (
-                <>
-                  <Button
-                    onClick={() => {
-                      setIsEdit(false);
-                      submitData();
-                    }}
-                    disabled={!isDataChanged}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      resetForm();
-                      setIsEdit(false);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              )}
-              {!isEdit && <Button onClick={() => setIsEdit(true)}>Edit</Button>}
-            </>
-          }
           <SimpleSnackbar
             open={openSnack}
             setOpen={setOpenSnack}

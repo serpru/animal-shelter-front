@@ -9,6 +9,8 @@ import {
   Select,
   MenuItem,
   Button,
+  Grid,
+  Card,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs, PluginFunc } from "dayjs";
@@ -257,123 +259,154 @@ function AdoptionAdd({ mode, timezone }: Props) {
       <>
         {!loading && (
           <>
-            <Typography>
-              {mode == "add" ? "Create adoption for" : "Edit adoption info for"}
-            </Typography>
-            <Typography>
-              {
-                formData?.animals.find((animal) => animal.id == data.animal_id)
-                  ?.name
-              }
-            </Typography>
-            <Typography>{data.start_date.toLocaleDateString()}</Typography>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Animal</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.animal_id.toString()}
-                label="Animal"
-                onChange={handleAnimalChange}
-                disabled={!isEdit}
-              >
-                {formData?.animals.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Adoptee</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.adoptee_id.toString()}
-                label="Adoptee"
-                onChange={handleAdopteeChange}
-                disabled={mode == "edit" ? true : !isEdit}
-              >
-                {formData?.adoptees.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {`${x.first_name} ${x.last_name}`}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Employee</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.employee_id.toString()}
-                label="Employee"
-                onChange={handleEmployeeChange}
-                disabled={mode == "edit" ? true : !isEdit}
-              >
-                {formData?.employees.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {`${x.first_name} ${x.last_name}`}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Note</InputLabel>
-              <Input
-                multiline
-                onChange={handleNoteChange}
-                value={data.note}
-                disabled={!isEdit}
-              ></Input>
-            </FormControl>
-
-            {mode === "edit" ? (
-              <>
-                {" "}
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={data.adoption_status_id.toString()}
-                    label="Status"
-                    onChange={handleAdoptionStatusChange}
-                    disabled={!isEdit}
-                  >
-                    {formData?.statuses.map((x) => (
-                      <MenuItem key={x.id} value={x.id}>
-                        {`${x.description}`}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                {isEdit && (
-                  <>
-                    <Button onClick={submitData}>Submit</Button>
-                    <Button
-                      onClick={() => {
-                        resetForm();
-                        setIsEdit(false);
-                      }}
+            <Card>
+              <Typography>
+                {mode == "add"
+                  ? "Create adoption for"
+                  : "Edit adoption info for"}
+              </Typography>
+              <Typography>
+                {
+                  formData?.animals.find(
+                    (animal) => animal.id == data.animal_id
+                  )?.name
+                }
+              </Typography>
+              <Typography>{data.start_date.toLocaleDateString()}</Typography>
+              <Grid container rowGap={2}>
+                <Grid item xs={4}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Animal
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.animal_id.toString()}
+                      label="Animal"
+                      onChange={handleAnimalChange}
+                      disabled={!isEdit}
                     >
-                      Cancel
-                    </Button>
-                  </>
-                )}
-                {!isEdit && (
-                  <Button onClick={() => setIsEdit(true)}>Edit</Button>
-                )}
-              </>
-            ) : (
-              <Button onClick={submitData}>Submit</Button>
-            )}
-            <SimpleSnackbar
-              open={openSnack}
-              setOpen={setOpenSnack}
-              message={snackMessage.message}
-              severity={snackMessage.severity}
-            ></SimpleSnackbar>
+                      {formData?.animals.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Adoptee
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.adoptee_id.toString()}
+                      label="Adoptee"
+                      onChange={handleAdopteeChange}
+                      disabled={mode == "edit" ? true : !isEdit}
+                    >
+                      {formData?.adoptees.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {`${x.first_name} ${x.last_name}`}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Employee
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.employee_id.toString()}
+                      label="Employee"
+                      onChange={handleEmployeeChange}
+                      disabled={mode == "edit" ? true : !isEdit}
+                    >
+                      {formData?.employees.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {`${x.first_name} ${x.last_name}`}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">Note</InputLabel>
+                    <Input
+                      multiline
+                      onChange={handleNoteChange}
+                      value={data.note}
+                      disabled={!isEdit}
+                    ></Input>
+                  </FormControl>
+                </Grid>
+              </Grid>
+
+              {mode === "edit" ? (
+                <>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Status
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.adoption_status_id.toString()}
+                      label="Status"
+                      onChange={handleAdoptionStatusChange}
+                      disabled={!isEdit}
+                    >
+                      {formData?.statuses.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {`${x.description}`}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {isEdit && (
+                    <>
+                      <Button variant="contained" onClick={submitData}>
+                        Submit
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          resetForm();
+                          setIsEdit(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  )}
+                  {!isEdit && (
+                    <Button onClick={() => setIsEdit(true)}>Edit</Button>
+                  )}
+                </>
+              ) : (
+                <Button variant="contained" onClick={submitData}>
+                  Submit
+                </Button>
+              )}
+              <SimpleSnackbar
+                open={openSnack}
+                setOpen={setOpenSnack}
+                message={snackMessage.message}
+                severity={snackMessage.severity}
+              ></SimpleSnackbar>
+            </Card>
           </>
         )}
       </>

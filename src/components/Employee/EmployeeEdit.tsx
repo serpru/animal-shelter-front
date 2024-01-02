@@ -9,6 +9,8 @@ import {
   Select,
   MenuItem,
   Button,
+  Card,
+  Grid,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
@@ -39,10 +41,8 @@ function EmployeeEdit({ mode }: Props) {
     last_name: "",
     phone_number: "",
     email: "",
-    salary: 0,
     job_type_id: 1,
     start_date: today,
-    birth_date: today,
   };
 
   const [data, setData] = useState<EmployeeRequest>(dataBlank);
@@ -79,10 +79,8 @@ function EmployeeEdit({ mode }: Props) {
           last_name: actualData.last_name,
           phone_number: actualData.phone_number,
           email: actualData.email,
-          salary: actualData.salary,
           job_type_id: actualData.job_type.id,
           start_date: actualData.start_date,
-          birth_date: actualData.birth_date,
         };
         setData(fetchData);
         setDataOriginal(fetchData);
@@ -140,10 +138,8 @@ function EmployeeEdit({ mode }: Props) {
       last_name: data.last_name,
       phone_number: data.phone_number,
       email: data.email,
-      salary: data.salary,
       job_type_id: data.job_type_id,
       start_date: data.start_date,
-      birth_date: data.birth_date,
     };
 
     console.warn("Submit data");
@@ -204,26 +200,12 @@ function EmployeeEdit({ mode }: Props) {
     setData({ ...data, email: event.target.value });
   }
 
-  function handleSalaryChange(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    let newSalary = Number(event.target.value);
-    setData({
-      ...data,
-      salary: newSalary,
-    });
-  }
-
   function handleJobTypeChange(event: SelectChangeEvent) {
     let newId = Number(event.target.value);
     setData({
       ...data,
       job_type_id: newId,
     });
-  }
-
-  function handleBirthDateChange(newDate: Dayjs | null) {
-    setData({ ...data, birth_date: newDate!.toDate() });
   }
 
   function handleStartDateChange(newDate: Dayjs | null) {
@@ -249,120 +231,123 @@ function EmployeeEdit({ mode }: Props) {
       <>
         {!loading && (
           <>
-            <Typography>Add employee</Typography>
-            <FormControl>
-              <InputLabel htmlFor="animal-name">First name</InputLabel>
-              <Input
-                value={data.first_name}
-                onChange={handleFirstNameChange}
-                disabled={!isEdit}
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="animal-name">Last name</InputLabel>
-              <Input
-                value={data.last_name}
-                onChange={handleLastNameChange}
-                disabled={!isEdit}
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="animal-name">Phone number</InputLabel>
-              <Input
-                value={data.phone_number}
-                onChange={handlePhoneChange}
-                disabled={!isEdit}
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="animal-name">Email</InputLabel>
-              <Input
-                value={data.email}
-                onChange={handleEmailChange}
-                disabled={!isEdit}
-              />
-            </FormControl>
-            <FormControl>
-              <TextField
-                id="outlined-number"
-                label="Salary"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={handleSalaryChange}
-                value={data.salary}
-                disabled={!isEdit}
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Job type</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={data.job_type_id?.toString()}
-                label="Job type"
-                onChange={handleJobTypeChange}
-                disabled={!isEdit}
-              >
-                {formData.job_types.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>
-                    {x.description}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <DatePicker
-                label="Birth date"
-                value={dayjs(data.birth_date)}
-                disableFuture
-                onChange={handleBirthDateChange}
-                format="DD/MM/YYYY"
-                timezone="system"
-                disabled={!isEdit}
-              ></DatePicker>
-            </FormControl>
-            <FormControl>
-              <DatePicker
-                label="Start date"
-                value={dayjs(data.start_date)}
-                disableFuture
-                onChange={handleStartDateChange}
-                format="DD/MM/YYYY"
-                timezone="system"
-                disabled={!isEdit}
-              ></DatePicker>
-            </FormControl>
-            {mode === "edit" ? (
-              <>
-                {" "}
-                {isEdit && (
-                  <>
-                    <Button onClick={submitData}>Submit</Button>
-                    <Button
-                      onClick={() => {
-                        resetForm();
-                        setIsEdit(false);
-                      }}
+            <Card>
+              <Typography>Employee</Typography>
+              <Grid container rowGap={2}>
+                <Grid item xs={4}>
+                  <FormControl>
+                    <InputLabel htmlFor="animal-name">First name</InputLabel>
+                    <Input
+                      value={data.first_name}
+                      onChange={handleFirstNameChange}
+                      disabled={!isEdit}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl>
+                    <InputLabel htmlFor="animal-name">Last name</InputLabel>
+                    <Input
+                      value={data.last_name}
+                      onChange={handleLastNameChange}
+                      disabled={!isEdit}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel htmlFor="animal-name">Phone number</InputLabel>
+                    <Input
+                      value={data.phone_number}
+                      onChange={handlePhoneChange}
+                      disabled={!isEdit}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel htmlFor="animal-name">Email</InputLabel>
+                    <Input
+                      value={data.email}
+                      onChange={handleEmailChange}
+                      disabled={!isEdit}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  {" "}
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">
+                      Job type
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={data.job_type_id?.toString()}
+                      label="Job type"
+                      onChange={handleJobTypeChange}
+                      disabled={!isEdit}
                     >
-                      Cancel
-                    </Button>
-                  </>
-                )}
-                {!isEdit && (
-                  <Button onClick={() => setIsEdit(true)}>Edit</Button>
-                )}
-              </>
-            ) : (
-              <Button onClick={submitData}>Submit</Button>
-            )}
-            <SimpleSnackbar
-              open={openSnack}
-              setOpen={setOpenSnack}
-              message={snackMessage.message}
-              severity={snackMessage.severity}
-            ></SimpleSnackbar>
+                      {formData.job_types.map((x) => (
+                        <MenuItem key={x.id} value={x.id}>
+                          {x.description}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  {" "}
+                  <FormControl>
+                    <DatePicker
+                      label="Start date"
+                      value={dayjs(data.start_date)}
+                      disableFuture
+                      onChange={handleStartDateChange}
+                      format="DD/MM/YYYY"
+                      timezone="system"
+                      disabled={!isEdit}
+                    ></DatePicker>
+                  </FormControl>
+                </Grid>
+              </Grid>
+
+              {mode === "edit" ? (
+                <>
+                  {" "}
+                  {isEdit && (
+                    <>
+                      <Button variant="contained" onClick={submitData}>
+                        Submit
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          resetForm();
+                          setIsEdit(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  )}
+                  {!isEdit && (
+                    <Button onClick={() => setIsEdit(true)}>Edit</Button>
+                  )}
+                </>
+              ) : (
+                <Button variant="contained" onClick={submitData}>
+                  Submit
+                </Button>
+              )}
+              <SimpleSnackbar
+                open={openSnack}
+                setOpen={setOpenSnack}
+                message={snackMessage.message}
+                severity={snackMessage.severity}
+              ></SimpleSnackbar>
+            </Card>
           </>
         )}
       </>
